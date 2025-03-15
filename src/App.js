@@ -1,23 +1,11 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 import "./App.css"
-export default class App extends  Component{
-    state = {
-        todoData : [
-            {
-                id : "1",
-                title : "공부하기",
-                completed: false
-            },
-            {
-                id : "2",
-                title : "청소하기",
-                completed: false
-            }
-        ],
-        value: ""
-    }
+export default function App() {
 
-    btnStyle = {
+    const {todoData, setTodoData} = useState([]);
+    const [value,setValue] = useState("");
+
+    const btnStyle = {
         color: "#fff",
         border: "none",
         padding: "5px 9px",
@@ -26,7 +14,7 @@ export default class App extends  Component{
         float: "right"
     }
 
-    getStyle = (completed) => {
+    const getStyle = (completed) => {
         return{
             padding: "10px",
             borderBottom: "1px #ccc dotted",
@@ -34,62 +22,63 @@ export default class App extends  Component{
         }
     }
 
-    handleClick = (id) => {
-        let newTodoData  = this.state.todoData.filter((data) => data.id !== id);
-        this.setState({todoData: newTodoData})
+    const handleClick = (id) => {
+        let newTodoData  = todoData.filter((data) => data.id !== id);
+        setTodoData(newTodoData)
     }
 
-    handleChange = (e) => {
-        this.setState({value: e.target.value})
+    const handleChange = (e) => {
+        setValue(e.target.value)
     }
 
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         let newTodo = {
             id: Date.now(),
-            title: this.state.value,
+            title: value,
             completed: false,
         }
 
-        this.setState({todoData: [...this.state.todoData, newTodo], value:""});
+        setTodoData((prev) => [...prev, newTodo]);
+        setValue("");
     }
 
-    handleCompleteChange= (id) => {
-        let newTodoData = this.state.todoData.map((data) => {
+    const handleCompleteChange= (id) => {
+        let newTodoData = todoData.map((data) => {
             if(data.id === id){
                 data.completed = !data.completed;
             }
             return data;
         });
-        this.setState({todoData: newTodoData})
+        setTodoData(newTodoData);
     }
 
-  render() {
+
     return(
         <div className="container">
             <div className="todoBlock">
                 <h1>할 일 목록</h1>
             </div>
-            {this.state.todoData.map(data => (
-                <div style={this.getStyle(data.completed)} key = {data.id}>
+            {todoData.map(data => (
+                <div style={getStyle(data.completed)} key = {data.id}>
                         <input
                         type="checkbox"
-                        onChange={() => {this.handleCompleteChange(data.id)}}
+                        onChange={() => {handleCompleteChange(data.id)}}
                         defaultChecked={false} />
                         {data.title}
-                        <button style={this.btnStyle} onClick={() => this.handleClick(data.id)}>x</button>
+                        <button style={btnStyle} onClick={() => handleClick(data.id)}>x</button>
                 </div>
             ))}
 
-            <form style={{display: 'flex'}} onSubmit={this.handleSubmit}>
+            <form style={{display: 'flex'}} onSubmit={handleSubmit}>
                 <input
                     type="text"
                     name="value"
                     style={{flex:'10', padding:'5px'}}
                     placeholder="해야 할 일을 입력하세요"
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    value={value}
+                    onChange={handleChange}
                 />
                 <input
                     type="submit"
@@ -100,5 +89,4 @@ export default class App extends  Component{
             </form>
         </div>
     )
-  }
 }
