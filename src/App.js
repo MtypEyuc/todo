@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import "./App.css"
 export default function App() {
 
-    const {todoData, setTodoData} = useState([]);
+    const [todoData, setTodoData] = useState([]);
     const [value,setValue] = useState("");
 
     const btnStyle = {
@@ -60,6 +60,7 @@ export default function App() {
             <div className="todoBlock">
                 <h1>할 일 목록</h1>
             </div>
+
             {todoData.map(data => (
                 <div style={getStyle(data.completed)} key = {data.id}>
                         <input
