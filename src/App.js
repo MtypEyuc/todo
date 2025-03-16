@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./App.css"
-import List from "./components/List";
+import Lists from "./components/Lists";
 import Form from "./components/Form";
 export default function App() {
 
@@ -28,7 +28,7 @@ export default function App() {
                 </div>
 
 
-                <List todoData={todoData} setTodoData={setTodoData}/>
+                <Lists todoData={todoData} setTodoData={setTodoData}/>
 
             <Form handleSubmit = {handleSubmit} value = {value} setValue = {setValue} />
             </div>
